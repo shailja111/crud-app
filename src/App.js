@@ -6,6 +6,7 @@ import Create from "./components/Create";
 import Update from "./components/Update";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import ProtectedRoutes from "./services/ProtectedRoutes";
 
 function App() {
   return (
@@ -14,10 +15,13 @@ function App() {
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/showusers" element={<ShowUsers />} />
-          <Route path="/create" element={<Create />} />
-          <Route path="/edit/:id" element={<Update />} />
-          <Route path="/navbar" element={<Navbar />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/" element={<ProtectedRoutes />}>
+            <Route path="/navbar" element={<Navbar />} />
+            <Route path="/create" element={<Create />} />
+
+            <Route path="/edit/:id" element={<Update />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </div>
