@@ -1,11 +1,18 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { getAllData } from "../features/gitUserSlice";
 
 function Navbar() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const allusers = useSelector((state) => state.app.users);
+  const userName = JSON.parse(localStorage.getItem("user"));
+
+  function handleLogout() {
+    localStorage.removeItem("loggedin");
+    navigate("/");
+  }
 
   return (
     <div>
@@ -38,12 +45,14 @@ function Navbar() {
               <button className="btn btn-outline-success" type="submit">
                 Search
               </button>
+              <button onClick={handleLogout}>Logout</button>
             </form>
           </div>
         </div>
       </nav>
 
       <h1>Home</h1>
+      <h2>Welcome {userName.name}</h2>
     </div>
   );
 }
