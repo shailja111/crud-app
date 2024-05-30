@@ -8,6 +8,11 @@ function Login() {
     password: "",
   });
 
+  const [formError, setFormError] = useState({
+    email: "",
+    password: "",
+  });
+
   function handleChange(e) {
     setInput({ ...input, [e.target.name]: e.target.value });
   }
@@ -21,32 +26,73 @@ function Login() {
     ) {
       localStorage.setItem("loggedin", true);
       navigate("/navbar");
-    } else {
-      alert("wrong Email or Password");
+    }
+
+    let inputError = {
+      email: "",
+      password: "",
+    };
+    if (!input.email && !input.password) {
+      setFormError({
+        ...inputError,
+        email: "Enter a valid email address",
+        password: "Password should not be empty",
+      });
+      return;
+    }
+
+    if (!input.email) {
+      setFormError({
+        ...inputError,
+        email: "Enter a valid email address",
+      });
+      return;
+    }
+    if (!input.password) {
+      setFormError({
+        ...inputError,
+        password: "Password should not be empty",
+      });
+      return;
+    }
+    if (input.password.length !== 5) {
+      setFormError({
+        ...inputError,
+        password: "Password should be of minimum 5 digits",
+      });
+      return;
     }
   }
 
   return (
     <div>
       <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Your Email</label>
+      <form onSubmit={handleSubmit} className="w-50 mx-auto">
+        <div className="mb-3">
+          <label className="form-label">Your Email</label>
           <input
             type="email"
             name="email"
             value={input.email}
             onChange={handleChange}
+            className="form-control"
           />
+          <p className="text-danger">{formError.email}</p>
+
+          <div class="form-text">
+            We'll never share your email with anyone else.
+          </div>
         </div>
-        <div>
-          <label>Your Password</label>
+        <div class="mb-3">
+          <label className="form-label">Password</label>
           <input
+            className="form-control"
             type="password"
             name="password"
             value={input.password}
             onChange={handleChange}
           />
+          <p className="text-danger">{formError.password}</p>
         </div>
 
         <button type="submit">Login</button>
