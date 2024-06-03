@@ -11,7 +11,7 @@ function Navbar() {
 
   function handleLogout() {
     localStorage.removeItem("loggedin");
-    navigate("/");
+    navigate("/login2");
   }
 
   return (
